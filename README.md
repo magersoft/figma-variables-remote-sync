@@ -1,4 +1,4 @@
-# React Editor
+# Variables Remote Sync
 
 ## Development guide
 
