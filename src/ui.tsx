@@ -75,9 +75,16 @@ function Plugin() {
     setSyncError(false);
     setLoading(true)
 
-    console.log(selectedThemes);
+    const colorPalette = selectedCollections[0] ? data.colorPalette : {};
 
-    emit<SyncVariablesEvent>('SYNC_VARIABLES', data)
+    const themes = Object.keys(data.themes).reduce((acc, theme, idx) => {
+      if (selectedThemes[idx]) {
+        (acc as any)[theme] = data.themes[theme];
+      }
+      return acc;
+    }, {})
+
+    emit<SyncVariablesEvent>('SYNC_VARIABLES', { ...data, colorPalette, themes })
   }
 
   const handleCloseErrorModal = () => {
