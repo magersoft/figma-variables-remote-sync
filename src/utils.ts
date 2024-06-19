@@ -12,12 +12,14 @@ export function parseVariables(variables: Variable[], modes: VariablesMode[], co
 
     const filterVariablesByType = (types: VariableResolvedDataType[]) => {
       return variables.filter((variable) => types.includes(variable.resolvedType)).map((variable) => {
+        const id = variable.id;
         const name = variable.name;
         const description = variable.description;
         const type = variable.resolvedType;
         const value = getValueByVariableId(variable.valuesByMode[modeId], type, colorPalette);
 
         return {
+          id,
           name,
           description,
           type,

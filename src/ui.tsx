@@ -75,7 +75,7 @@ function Plugin() {
     setSyncError(false);
     setLoading(true)
 
-    const colorPalette = selectedCollections[0] ? data.colorPalette : {};
+    const colorPalette = selectedCollections[0] ? data.colorPalette : [];
 
     const themes = Object.keys(data.themes).reduce((acc, theme, idx) => {
       if (selectedThemes[idx]) {

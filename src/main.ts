@@ -4,11 +4,11 @@ import { ClosePluginEvent, InitEvent, SyncVariablesEvent } from './types'
 import { useVariables } from './features';
 
 export default function () {
-  const { getAllVariables, syncVariables } = useVariables();
+  const { getAllVariables, syncAllVariables } = useVariables();
 
   on<InitEvent>('INIT', () => getAllVariables())
 
-  on<SyncVariablesEvent>('SYNC_VARIABLES', (data: any) => syncVariables(data))
+  on<SyncVariablesEvent>('SYNC_VARIABLES', (data: any) => syncAllVariables(data))
 
   on<ClosePluginEvent>('CLOSE_PLUGIN', () => figma.closePlugin())
 

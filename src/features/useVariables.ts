@@ -29,27 +29,57 @@ export function useVariables() {
     })
   }
 
-  const syncVariables = async (data: VariablesData) => {
+  const syncAllVariables = async (data: VariablesData) => {
     figma.notify(`🥰 Finished`);
 
+    const { colorPalette, themes } = data;
+
     try {
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve('Test error');
-        }, 1000);
-      });
+      await Promise.all([
+        syncColorPalette(colorPalette),
+        syncThemes(themes),
+      ]);
 
       emit('FINISHED');
-      console.log(data);
     } catch (err) {
       console.error(err);
       emit('SYNC_ERROR', err);
     }
   }
 
+  const syncColorPalette = async (data: VariablesData['colorPalette']) => {
+    if (!data.length) return;
+
+    const response = await fetch(`${figmaConfig.apiUrl}/figma-sync/colors`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ colors: data }),
+    });
+    const { message } = await response.json();
+
+    console.log(message);
+  }
+
+  const syncThemes = async (data: VariablesData['themes']) => {
+    if (!Object.keys(data).length) return;
+
+    const response = await fetch(`${figmaConfig.apiUrl}/figma-sync/themes`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ themes: data }),
+    });
+    const { message } = await response.json();
+
+    console.log(message);
+  }
+
   return {
     initialDataState,
     getAllVariables,
-    syncVariables
+    syncAllVariables
   }
 }
