@@ -10,6 +10,11 @@ export function useVariables() {
     const collections = figma.variables.getLocalVariableCollections();
     const variables =  figma.variables.getLocalVariables()
 
+    if (!collections.length || !variables.length) {
+      emit<ErrorEvent>('ERROR', 'Плагин не может найти переменные. Пожалуйста, убедитесь, что у вас есть коллекции переменных в Figma.')
+      return;
+    }
+
     const [ColorPalette, Tokens] = collections;
 
     if (ColorPalette.name !== figmaConfig.colorPaletteName || Tokens.name !== figmaConfig.tokensName) {
