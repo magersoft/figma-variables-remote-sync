@@ -66,8 +66,6 @@ export function mappingColorPalette(variable: Variable, modeId: string): Variabl
 const validatePrimitiveColor = (value: VariableValue): boolean => typeof value === 'object' && ("r" in value) && ("g" in value) && ("b" in value)
 
 const getValueByVariableId = (value: VariableValue, type: VariableResolvedDataType, colorPalette: VariableItem[]) => {
-  if (!value) return;
-
   if (type === 'COLOR') {
     if (typeof value === 'object' && ("type" in value) && ("id" in value)) {
       const { id, type } = value;
@@ -90,12 +88,14 @@ const getValueByVariableId = (value: VariableValue, type: VariableResolvedDataTy
   }
 
   if (type === 'FLOAT') {
-    return value;
+    return value || 0;
   }
 
   if (type === 'BOOLEAN') {
     return value;
   }
+
+  if (!value) return;
 
   return value;
 }
